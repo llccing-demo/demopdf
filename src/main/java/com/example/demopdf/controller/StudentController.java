@@ -36,4 +36,10 @@ public class StudentController {
         generator.setStudentList(studentList);
         generator.generate(response);
     }
+
+    @GetMapping("pdf/txt")
+    public void generateByTxt() {
+        PDFGenerator generator = new PDFGenerator();
+        generator.generateByTxt();
+    }
 }
