@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.*;
+import java.net.URL;
 import java.util.List;
 
 public class PDFGenerator {
@@ -95,8 +96,8 @@ public class PDFGenerator {
         DataInputStream in = null;
         InputStreamReader isr = null;
         BufferedReader br = null;
-        File sourceFile = new File("C:\\Users\\cliu3\\Downloads\\sample-list.txt");
-        File destFile = new File("C:\\Users\\cliu3\\Downloads\\sample-list.pdf");
+        File sourceFile = new File("C:\\Users\\cliu3\\Downloads\\sample.txt");
+        File destFile = new File("C:\\Users\\cliu3\\Downloads\\sample.pdf");
 
         Document document = new Document(PageSize.A4.rotate());
 
@@ -110,6 +111,12 @@ public class PDFGenerator {
         boldFont.setStyle(Font.BOLD);
         boldFont.setSize(10);
 
+//        String fotnFileName = ""
+        URL fontPath = Thread.currentThread().getContextClassLoader().getResource("IBMPlexMono-Regular.ttf");
+        FontFactory.register(fontPath.toString(), "ibm_font");
+        Font ibmFont = FontFactory.getFont("ibm_font");
+        ibmFont.setSize(9);
+
         myFont.setStyle(Font.NORMAL);
         myFont.setSize(9);
 
@@ -122,7 +129,7 @@ public class PDFGenerator {
             br = new BufferedReader(isr);
             String strLine;
             while ((strLine = br.readLine()) != null) {
-                Paragraph paragraph = new Paragraph(strLine + "\n", myFont);
+                Paragraph paragraph = new Paragraph(strLine + "\n", ibmFont);
                 paragraph.setAlignment(Element.ALIGN_JUSTIFIED);
                 document.add(paragraph);
             }
