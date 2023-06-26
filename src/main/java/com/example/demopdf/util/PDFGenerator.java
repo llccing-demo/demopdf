@@ -49,7 +49,7 @@ public class PDFGenerator {
 
         // Setting width of table, its columns and spacing
         table.setWidthPercentage(100f);
-        table.setWidths(new int[] {3,3,3});
+        table.setWidths(new int[]{3, 3, 3});
         table.setSpacingBefore(5);
 
         // Create table Cells for table header
@@ -89,70 +89,60 @@ public class PDFGenerator {
         document.close();
     }
 
-    public void generateByTxt() {
+    public void generateByTxt() throws DocumentException, IOException {
 
-        FileInputStream fis =null;
+        FileInputStream fis = null;
         DataInputStream in = null;
         InputStreamReader isr = null;
         BufferedReader br = null;
         File sourceFile = new File("C:\\Users\\cliu3\\Downloads\\sample-list.txt");
         File destFile = new File("C:\\Users\\cliu3\\Downloads\\sample-list.pdf");
 
-        try {
-            Document document = new Document(PageSize.A4.rotate());
+        Document document = new Document(PageSize.A4.rotate());
 
-            PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(destFile));
-            document.open();
+        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(destFile));
+        document.open();
 
-            BaseFont courier = BaseFont.createFont(BaseFont.COURIER, BaseFont.CP1252, BaseFont.EMBEDDED);
-            Font myFont = new Font(courier);
+        BaseFont courier = BaseFont.createFont(BaseFont.COURIER, BaseFont.CP1252, BaseFont.EMBEDDED);
+        Font myFont = new Font(courier);
 
-            Font boldFont = new Font();
-            boldFont.setStyle(Font.BOLD);
-            boldFont.setSize(10);
+        Font boldFont = new Font();
+        boldFont.setStyle(Font.BOLD);
+        boldFont.setSize(10);
 
-            myFont.setStyle(Font.NORMAL);
-            myFont.setSize(9);
+        myFont.setStyle(Font.NORMAL);
+        myFont.setSize(9);
 
-            document.add(new Paragraph("\n"));
+        document.add(new Paragraph("\n"));
 
-            if (sourceFile.exists()) {
-                fis = new FileInputStream(sourceFile);
-                in = new DataInputStream(fis);
-                isr = new InputStreamReader(in);
-                br = new BufferedReader(isr);
-                String strLine;
-                while ((strLine = br.readLine()) != null) {
-                    Paragraph paragraph = new Paragraph(strLine + "\n", myFont);
-                    paragraph.setAlignment(Element.ALIGN_JUSTIFIED);
-                    document.add(paragraph);
-                }
-                log.debug("Txt file converted to pdf successfully!");
-            } else {
-                log.error("No file exist!");
+        if (sourceFile.exists()) {
+            fis = new FileInputStream(sourceFile);
+            in = new DataInputStream(fis);
+            isr = new InputStreamReader(in);
+            br = new BufferedReader(isr);
+            String strLine;
+            while ((strLine = br.readLine()) != null) {
+                Paragraph paragraph = new Paragraph(strLine + "\n", myFont);
+                paragraph.setAlignment(Element.ALIGN_JUSTIFIED);
+                document.add(paragraph);
             }
-            document.close();
-        } catch (DocumentException e) {
-            log.error(e.toString());
-        } catch (IOException e) {
-            log.error(e.toString());
-        } finally {
-            try {
-                if (br != null) {
-                    br.close();
-                }
-                if (fis !=null) {
-                    fis.close();
-                }
-                if (in != null) {
-                    in.close();
-                }
-                if (isr != null) {
-                    isr.close();
-                }
-            } catch (IOException e) {
-                log.error(e.toString());
-            }
+            log.debug("Txt file converted to pdf successfully!");
+        } else {
+            log.error("No file exist!");
+        }
+        document.close();
+
+        if (br != null) {
+            br.close();
+        }
+        if (fis != null) {
+            fis.close();
+        }
+        if (in != null) {
+            in.close();
+        }
+        if (isr != null) {
+            isr.close();
         }
     }
 }

@@ -38,7 +38,7 @@ public class StudentController {
     }
 
     @GetMapping("pdf/txt")
-    public void generateByTxt() {
+    public void generateByTxt() throws DocumentException, IOException {
         PDFGenerator generator = new PDFGenerator();
         generator.generateByTxt();
     }
